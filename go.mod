@@ -1,3 +1,3 @@
 module github.com/BolajiOlajide/lenslocked.com
 
-go 1.15
+go 1.17
