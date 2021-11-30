@@ -59,3 +59,4 @@ builds/**/images/*
 
 # Don't include our binary
 lenslocked.com
+lenslocked
