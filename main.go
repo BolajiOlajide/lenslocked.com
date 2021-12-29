@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"net/http"
+	"time"
 )
 
 const styles string = `<style>
@@ -250,6 +252,22 @@ func faqHandler(w http.ResponseWriter, r *http.Request) {
 `, styles))
 }
 
+func getSingleResourceHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	userID := chi.URLParam(r, "userID")
+	fmt.Fprint(w, fmt.Sprintf(`<html>
+	<head>
+		<title>LensLocked | Single Resource</title>
+		%s
+	</head>
+	<body>
+		<h1>I am getting a single resource</h1>
+		<p><b>userID</b>: %s<p>
+	<body>
+</html>
+`, styles, userID))
+}
+
 //func pathHandler(w http.ResponseWriter, r *http.Request) {
 //	switch r.URL.Path {
 //	case "/":
@@ -281,7 +299,16 @@ func faqHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	r := chi.NewRouter()
 
+	// A good base middleware stack
+	r.Use(middleware.CleanPath, middleware.RequestID, middleware.RealIP, middleware.Logger, middleware.Recoverer)
+
+	// Set a timeout value on the request context (ctx), that will signal
+	// through ctx.Done() that the request has timed out and further
+	// processing should be stopped.
+	r.Use(middleware.Timeout(60 * time.Second))
+
 	r.Get("/", homeHandler)
+	r.Get("/user/{userID}", getSingleResourceHandler)
 	r.Get("/contact", contactHandler)
 	r.Get("/faq", faqHandler)
 
