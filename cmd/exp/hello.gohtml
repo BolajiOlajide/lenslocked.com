@@ -1,4 +1,16 @@
 <h1>Hello, {{.Name}}</h1>
 
-<title>{{{{- /*gotype: .Name*/ -}}
-	}}</title>
+<span>Age: {{.Age}}</span>
+<span>Visits: {{.Meta.Visits}}</span>
+<span>{{.Bio}}</span>
+
+{{.RawHTML}}
+
+<script>
+const user = {
+	"name": {{.Name}},
+	"bio": {{.RawHTML}},
+	"age": {{.Age}}
+};
+console.log(user)
+</script>
