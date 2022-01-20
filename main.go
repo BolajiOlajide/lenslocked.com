@@ -12,9 +12,8 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 )
 
-func homeHandler(w http.ResponseWriter, r *http.Request) {
+func executeTemplate(w http.ResponseWriter, templatePath string) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	templatePath := filepath.Join("templates", "home.gohtml")
 	template, err := template.ParseFiles(templatePath)
 	if err != nil {
 		log.Printf("error parsing template: %v", err)
@@ -29,51 +28,19 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func homeHandler(w http.ResponseWriter, r *http.Request) {
+	templatePath := filepath.Join("templates", "home.gohtml")
+	executeTemplate(w, templatePath)
+}
+
 func contactHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, fmt.Sprintf(`<html>
-	<head>
-		<title>Lens Locked | Contact</title>
-	</head>
-	<body>
-		<h1>Contact page</h1>
-		<p>To get in touch email me at <a href="mailto:bolaji@lenslocked.com">bolaji@lenslocked.com</a>
-	</body>
-</html>
-`))
+	templatePath := filepath.Join("templates", "contact.gohtml")
+	executeTemplate(w, templatePath)
 }
 
 func faqHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, fmt.Sprintf(`<html>
-	<head>
-		<title>Lens Locked | FAQs</title>
-	</head>
-	<body>
-		<h1>Lens Locked FAQ</h1>
-		<ul>
-		  <li>
-			<input type="checkbox" checked>
-			<i></i>
-			<h2>Is there a free version?</h2>
-			<p>Yes! We have a free trial for 30 days on any paid plans.</p>
-		  </li>
-		  <li>
-			<input type="checkbox" checked>
-			<i></i>
-			<h2>What are your support hours?</h2>
-			<p>We have support staff answering emails 24/7, though response time may be a bit slower on weekends.</p>
-		  </li>
-		  <li>
-			<input type="checkbox" checked>
-			<i></i>
-			<h2>How do I contact support?</h2>
-			<p>Email us - <a href="support@lenslocked.com">support@lenslocked.com</a></p>
-		  </li>
-		</ul>
-	</body>
-</html>
-`))
+	templatePath := filepath.Join("templates", "faq.gohtml")
+	executeTemplate(w, templatePath)
 }
 
 func getSingleResourceHandler(w http.ResponseWriter, r *http.Request) {
