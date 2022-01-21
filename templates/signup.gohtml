@@ -1,17 +1,27 @@
 {{define "page"}}
-<form action="/api/auth/signup", method="POST">
-	<div>
-		<label for="email">Email Address</label>
-		<input name="email" id="email" type="text" placeholder="Email address" required autocomplete="email" />
-	</div>
+<div class="flex py-12 justify-center">
+	<div class="px-8 py-8 bg-white rounded shadown">
+		<h1 class="pt-4 pb-8 text-center text-3xl font-bold text-gray-900">Start sharing your photos today!</h1>
+		<form action="/api/auth/signup", method="POST">
+			<div class="py-2">
+				<label class="text-sm font-semibold text-gray-800" for="email">Email Address</label>
+				<input class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-800 rounded" name="email" id="email" type="text" placeholder="Email address" required autocomplete="email" />
+			</div>
 
-	<div>
-		<label for="password">Password</label>
-		<input type="password" name="password" id="password" placeholder="Password" />
-	</div>
+			<div class="py-2">
+				<label class="text-sm font-semibold text-gray-800" for="password">Password</label>
+				<input class="w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-800 rounded" type="password" name="password" id="password" placeholder="Password" />
+			</div>
 
-	<div>
-		<button type="submit">Sign Up</button>
+			<div class="py-4">
+				<button class="w-full py-4 px-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded font-bold text-lg" type="submit">Sign Up</button>
+			</div>
+
+			<div class="py-2 w-full flex justify-between">
+				<p class="text-xs text-gray-500">Already have an account? <a class="underline" href="/signin">Sign in</a></p>
+				<p class="text-xs text-gray-500"><a class="underline" href="/reset-password">Forgot your password?</a></p>
+			</div>
+		</form>
 	</div>
-</form>
+</div>
 {{end}}
