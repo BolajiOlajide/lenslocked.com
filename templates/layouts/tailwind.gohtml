@@ -7,10 +7,24 @@
   <title>Lenslocked</title>
 </head>
 <body class="flex flex-col min-h-screen">
+	<header class="bg-gradient-to-r from-blue-500 to-indigo-600">
+		<nav class="flex p-2 text-white items-center px-8 py-4">
+			<div class="pr-12 text-4xl">👀</div>
+			<div class="flex-grow">
+				<a class="text-lg font-semibold hover:text-blue-100 pr-8" href="/">Home</a>
+				<a class="text-lg font-semibold hover:text-blue-100 pr-8" href="/contact">Contact</a>
+				<a class="text-lg font-semibold hover:text-blue-100 pr-8" href="/faq">FAQ</a>
+			</div>
+			<div>
+				<a class="pr-4" href="#">Sign in</a>
+				<a class="px-4 py-2 bg-blue-700 hover:bg-blue-600 rounded" href="#">Sign up</a>
+			</div>
+		</nav>
+	</header>
 	<main class="flex-1 p-6">
 		{{template "page" .}}
 	</main>
-	<footer class="bg-indigo-600 p-2">
+	<footer class="bg-gradient-to-r from-blue-500 to-indigo-600 p-2">
 		<p class="text-center text-white">Copyright &copy; Lenslocked 2022</p>
 	</footer>
 </body>
