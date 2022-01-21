@@ -46,10 +46,10 @@ type Template struct {
 }
 
 // Execute to actually execute the template with the substituion data
-func (t Template) Execute(w http.ResponseWriter, substitution interface{}) {
+func (t Template) Execute(w http.ResponseWriter, substitutions interface{}) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
-	err := t.htmlTmpl.Execute(w, substitution)
+	err := t.htmlTmpl.Execute(w, substitutions)
 	if err != nil {
 		log.Printf("error executing the template: %v", err)
 		http.Error(w, "there was an error executing the template", http.StatusInternalServerError)
