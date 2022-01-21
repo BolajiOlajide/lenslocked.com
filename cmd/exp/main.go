@@ -1,6 +1,8 @@
 package main
 
 import (
+	"errors"
+	"fmt"
 	"html/template"
 	"os"
 )
@@ -23,6 +25,9 @@ type UserMeta struct {
 	Visits int
 }
 
+// ErrNotFound signifies when an item isn't found
+var ErrNotFound = errors.New("not found")
+
 func main() {
 	t, err := template.ParseFiles("cmd/exp/hello.gohtml")
 
@@ -44,4 +49,19 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	err = b()
+	fmt.Println(errors.Is(err, ErrNotFound))
+	unwrappedError := errors.Unwrap(err)
+	fmt.Println(unwrappedError)
+	// TODO determine if err is an ErrNotFound
+}
+
+func a() error {
+	return ErrNotFound
+}
+
+func b() error {
+	err := a()
+	return fmt.Errorf("b: %v", err)
 }
