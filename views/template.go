@@ -1,6 +1,7 @@
 package views
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -10,7 +11,7 @@ import (
 func Parse(templatePath string) (Template, error) {
 	template, err := template.ParseFiles(templatePath)
 	if err != nil {
-		return Template{}, err
+		return Template{}, fmt.Errorf("parsing template: %w", err)
 	}
 
 	return Template{
