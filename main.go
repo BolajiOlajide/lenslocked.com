@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/BolajiOlajide/lenslocked.com/controllers"
+	"github.com/BolajiOlajide/lenslocked.com/templates"
 	"github.com/BolajiOlajide/lenslocked.com/views"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -111,7 +112,7 @@ func main() {
 	r.Use(middleware.Timeout(60 * time.Second))
 
 	// parse the templates
-	tpl := views.Must(views.Parse(filepath.Join("templates", "home.gohtml")))
+	tpl := views.Must(views.ParseFS(templates.FS, "home.gohtml"))
 	r.Get("/", controllers.StaticHandler(tpl))
 
 	r.Get("/user/{userID}", getSingleResourceHandler)
@@ -119,7 +120,7 @@ func main() {
 	tpl = views.Must(views.Parse(filepath.Join("templates", "contact.gohtml")))
 	r.Get("/contact", controllers.StaticHandler(tpl))
 
-	tpl = views.Must(views.Parse(filepath.Join("templates", "faq.gohtml")))
+	tpl = views.Must(views.ParseFS(templates.FS, "faq.gohtml"))
 	r.Get("/faq", controllers.StaticHandler(tpl))
 
 	// not necessarily needed but okay to replicate former router structure
