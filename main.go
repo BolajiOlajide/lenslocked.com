@@ -112,7 +112,7 @@ func main() {
 	r.Use(middleware.Timeout(60 * time.Second))
 
 	// parse the templates
-	tpl := views.Must(views.ParseFS(templates.FS, "home.gohtml"))
+	tpl := views.Must(views.ParseFS(templates.FS, "home.gohtml", "layouts/part.gohtml"))
 	r.Get("/", controllers.StaticHandler(tpl))
 
 	r.Get("/user/{userID}", getSingleResourceHandler)
@@ -120,7 +120,7 @@ func main() {
 	tpl = views.Must(views.Parse(filepath.Join("templates", "contact.gohtml")))
 	r.Get("/contact", controllers.StaticHandler(tpl))
 
-	tpl = views.Must(views.ParseFS(templates.FS, "faq.gohtml"))
+	tpl = views.Must(views.ParseFS(templates.FS, "layouts/page.gohtml", "faq.gohtml"))
 	r.Get("/faq", controllers.FAQHandler(tpl))
 
 	// not necessarily needed but okay to replicate former router structure
