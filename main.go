@@ -12,7 +12,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 )
 
-func executeTemplate(w http.ResponseWriter, templatePath string) {
+func executeTemplate(w http.ResponseWriter, templatePath string, substitution interface{}) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	template, err := template.ParseFiles(templatePath)
 	if err != nil {
@@ -20,7 +20,7 @@ func executeTemplate(w http.ResponseWriter, templatePath string) {
 		http.Error(w, "There was an error parsing the template.", http.StatusInternalServerError)
 		return
 	}
-	err = template.Execute(w, nil)
+	err = template.Execute(w, substitution)
 	if err != nil {
 		log.Printf("error executing the template: %v", err)
 		http.Error(w, "there was an error executing the template", http.StatusInternalServerError)
@@ -30,32 +30,41 @@ func executeTemplate(w http.ResponseWriter, templatePath string) {
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	templatePath := filepath.Join("templates", "home.gohtml")
-	executeTemplate(w, templatePath)
+	executeTemplate(w, templatePath, nil)
 }
 
 func contactHandler(w http.ResponseWriter, r *http.Request) {
 	templatePath := filepath.Join("templates", "contact.gohtml")
-	executeTemplate(w, templatePath)
+	executeTemplate(w, templatePath, nil)
 }
 
 func faqHandler(w http.ResponseWriter, r *http.Request) {
 	templatePath := filepath.Join("templates", "faq.gohtml")
-	executeTemplate(w, templatePath)
+	executeTemplate(w, templatePath, nil)
 }
 
 func getSingleResourceHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	userID := chi.URLParam(r, "userID")
-	fmt.Fprint(w, fmt.Sprintf(`<html>
-	<head>
-		<title>LensLocked | Single Resource</title>
-	</head>
-	<body>
-		<h1>I am getting a single resource</h1>
-		<p><b>userID</b>: %s<p>
-	<body>
-</html>
-`, userID))
+	isAdmin := chi.URLParam(r, "isAdmin") == "true"
+	templatePath := filepath.Join("templates", "user", "{{id}}.gohtml")
+	executeTemplate(w, templatePath, struct {
+		UserID       string
+		IsAdmin      bool
+		Fruits       []string
+		Salary       float32
+		Measurements map[string]float32
+		Age          int32
+	}{
+		UserID:  userID,
+		IsAdmin: isAdmin,
+		Fruits:  []string{"pineapple", "orange", "grapes"},
+		Salary:  3130.28,
+		Age:     12,
+		Measurements: map[string]float32{
+			"height": 34.45,
+			"weight": 40.32,
+		},
+	})
 }
 
 //func pathHandler(w http.ResponseWriter, r *http.Request) {
