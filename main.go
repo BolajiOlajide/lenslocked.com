@@ -111,17 +111,26 @@ func main() {
 	// processing should be stopped.
 	r.Use(middleware.Timeout(60 * time.Second))
 
-	// parse the templates
-	tpl := views.Must(views.ParseFS(templates.FS, "home.gohtml", "layouts/part.gohtml"))
+	tpl := views.Must(views.ParseFS(templates.FS, "layouts/tailwind.gohtml", "home.gohtml"))
 	r.Get("/", controllers.StaticHandler(tpl))
+
+	tpl = views.Must(views.ParseFS(templates.FS, "layouts/tailwind.gohtml", "contact.gohtml"))
+	r.Get("/contact", controllers.StaticHandler(tpl))
+
+	tpl = views.Must(views.ParseFS(templates.FS, "layouts/tailwind.gohtml", "faq.gohtml"))
+	r.Get("/faq", controllers.FAQHandler(tpl))
+
+	// parse the templates
+	tpl = views.Must(views.ParseFS(templates.FS, "old_home.gohtml", "layouts/part.gohtml"))
+	r.Get("/old", controllers.StaticHandler(tpl))
 
 	r.Get("/user/{userID}", getSingleResourceHandler)
 
-	tpl = views.Must(views.Parse(filepath.Join("templates", "contact.gohtml")))
-	r.Get("/contact", controllers.StaticHandler(tpl))
+	tpl = views.Must(views.Parse(filepath.Join("templates", "old_contact.gohtml")))
+	r.Get("/old/contact", controllers.StaticHandler(tpl))
 
-	tpl = views.Must(views.ParseFS(templates.FS, "layouts/page.gohtml", "faq.gohtml"))
-	r.Get("/faq", controllers.FAQHandler(tpl))
+	tpl = views.Must(views.ParseFS(templates.FS, "layouts/page.gohtml", "old_faq.gohtml"))
+	r.Get("/old/faq", controllers.FAQHandler(tpl))
 
 	// not necessarily needed but okay to replicate former router structure
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {

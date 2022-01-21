@@ -1,0 +1,17 @@
+{{define "page"}}
+<h1>Lens Locked FAQ</h1>
+<ul>
+	{{range .}}
+		{{template "qa" .}}
+	{{end}}
+</ul>
+{{end}}
+
+{{define "qa"}}
+<li>
+	<input type="checkbox" checked>
+	<i></i>
+	<h2>{{.Question}}</h2>
+	<p>{{.Answer}}</p>
+	</li>
+{{end}}
