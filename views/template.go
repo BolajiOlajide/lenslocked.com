@@ -7,6 +7,14 @@ import (
 	"net/http"
 )
 
+// Must panics when there's an error parsing a template
+func Must(template Template, err error) Template {
+	if err != nil {
+		panic(err)
+	}
+	return template
+}
+
 // Parse method used to parse html
 func Parse(templatePath string) (Template, error) {
 	template, err := template.ParseFiles(templatePath)

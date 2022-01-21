@@ -7,10 +7,19 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/BolajiOlajide/lenslocked.com/controllers"
 	"github.com/BolajiOlajide/lenslocked.com/views"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
+
+// type SomeType struct {
+// 	Template views.Template
+// }
+
+// func (st SomeType) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+// 	st.Template.Execute(w, nil)
+// }
 
 func executeTemplate(w http.ResponseWriter, templatePath string, substitution interface{}) {
 	template, err := views.Parse(templatePath)
@@ -23,20 +32,20 @@ func executeTemplate(w http.ResponseWriter, templatePath string, substitution in
 	template.Execute(w, substitution)
 }
 
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	templatePath := filepath.Join("templates", "home.gohtml")
-	executeTemplate(w, templatePath, nil)
-}
+// func homeHandler(w http.ResponseWriter, r *http.Request) {
+// 	templatePath := filepath.Join("templates", "home.gohtml")
+// 	executeTemplate(w, templatePath, nil)
+// }
 
-func contactHandler(w http.ResponseWriter, r *http.Request) {
-	templatePath := filepath.Join("templates", "contact.gohtml")
-	executeTemplate(w, templatePath, nil)
-}
+// func contactHandler(w http.ResponseWriter, r *http.Request) {
+// 	templatePath := filepath.Join("templates", "contact.gohtml")
+// 	executeTemplate(w, templatePath, nil)
+// }
 
-func faqHandler(w http.ResponseWriter, r *http.Request) {
-	templatePath := filepath.Join("templates", "faq.gohtml")
-	executeTemplate(w, templatePath, nil)
-}
+// func faqHandler(w http.ResponseWriter, r *http.Request) {
+// 	templatePath := filepath.Join("templates", "faq.gohtml")
+// 	executeTemplate(w, templatePath, nil)
+// }
 
 func getSingleResourceHandler(w http.ResponseWriter, r *http.Request) {
 	userID := chi.URLParam(r, "userID")
@@ -101,10 +110,17 @@ func main() {
 	// processing should be stopped.
 	r.Use(middleware.Timeout(60 * time.Second))
 
-	r.Get("/", homeHandler)
+	// parse the templates
+	tpl := views.Must(views.Parse(filepath.Join("templates", "home.gohtml")))
+	r.Get("/", controllers.StaticHandler(tpl))
+
 	r.Get("/user/{userID}", getSingleResourceHandler)
-	r.Get("/contact", contactHandler)
-	r.Get("/faq", faqHandler)
+
+	tpl = views.Must(views.Parse(filepath.Join("templates", "contact.gohtml")))
+	r.Get("/contact", controllers.StaticHandler(tpl))
+
+	tpl = views.Must(views.Parse(filepath.Join("templates", "faq.gohtml")))
+	r.Get("/faq", controllers.StaticHandler(tpl))
 
 	// not necessarily needed but okay to replicate former router structure
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
