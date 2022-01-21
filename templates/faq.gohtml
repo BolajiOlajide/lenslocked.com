@@ -1,6 +1,6 @@
 {{define "page"}}
-<h1>Lens Locked FAQ</h1>
-<ul>
+<h1 class="pb-4 text-4xl semibold tracking-tight">Lens Locked FAQ</h1>
+<ul class="grid grid-cols-2 gap-16">
 	{{range .}}
 		{{template "qa" .}}
 	{{end}}
@@ -8,10 +8,8 @@
 {{end}}
 
 {{define "qa"}}
-<li>
-	<input type="checkbox" checked>
-	<i></i>
-	<h2>{{.Question}}</h2>
-	<p>{{.Answer}}</p>
-	</li>
+<li class="border-t-2 border-indigo-400 py-1 px-2">
+	<span class="block font-semibold text-lg text-gray-800">{{.Question}}</span>
+	<span class="block text-sm text-gray-500">{{.Answer}}</span>
+</li>
 {{end}}

@@ -6,10 +6,12 @@
   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   <title>Lenslocked</title>
 </head>
-<body>
-  {{template "page" .}}
-	<footer>
-		<p>Copyright Lenslocked 2022</p>
+<body class="flex flex-col min-h-screen">
+	<main class="flex-1 p-6">
+		{{template "page" .}}
+	</main>
+	<footer class="bg-indigo-600 p-2">
+		<p class="text-center text-white">Copyright &copy; Lenslocked 2022</p>
 	</footer>
 </body>
 </html>
