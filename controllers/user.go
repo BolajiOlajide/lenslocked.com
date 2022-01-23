@@ -17,8 +17,12 @@ type Template struct {
 
 // New creates a new user using the signup route
 func (u User) New(w http.ResponseWriter, r *http.Request) {
+	var data struct {
+		Email string
+	}
+	data.Email = r.FormValue("email")
 	// we need a view to render
-	u.Template.New.Execute(w, nil)
+	u.Template.New.Execute(w, data)
 }
 
 // Create backend implementation to actaually create the user
