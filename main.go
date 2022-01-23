@@ -123,6 +123,7 @@ func main() {
 	userController := controllers.User{}
 	userController.Template.New = views.Must(views.ParseFS(templates.FS, "layouts/tailwind.gohtml", "signup.gohtml"))
 	r.Get("/signup", userController.New)
+	r.Post("/api/signup", userController.Create)
 
 	// parse the templates
 	tpl = views.Must(views.ParseFS(templates.FS, "old_home.gohtml", "layouts/part.gohtml"))

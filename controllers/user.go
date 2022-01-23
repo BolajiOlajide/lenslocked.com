@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 )
 
@@ -18,4 +19,20 @@ type Template struct {
 func (u User) New(w http.ResponseWriter, r *http.Request) {
 	// we need a view to render
 	u.Template.New.Execute(w, nil)
+}
+
+// Create backend implementation to actaually create the user
+func (u User) Create(w http.ResponseWriter, r *http.Request) {
+	// err := r.ParseForm()
+	// if err != nil {
+	// 	log.Fatalf("an error occurred while creqting user: %v", err)
+	// 	http.Error(w, err.Error(), http.StatusBadRequest)
+	// 	return
+	// }
+	// fmt.Println(r.PostForm.Get("email"), "<====")
+
+	email := r.FormValue("email")
+	password := r.FormValue("password")
+	fmt.Println(email, "<====", password)
+	fmt.Fprintf(w, "Temporary Response")
 }
