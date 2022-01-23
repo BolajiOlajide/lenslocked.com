@@ -2,19 +2,19 @@ package controllers
 
 import (
 	"net/http"
-
-	"github.com/BolajiOlajide/lenslocked.com/views"
 )
 
 // User representing a lenslocked user information
 type User struct {
-	Template Templates
+	Template Template
 }
 
-type Templates struct {
-	New views.Template
+// Template template for user controller
+type Template struct {
+	New ViewTemplate
 }
 
+// New creates a new user using the signup route
 func (u User) New(w http.ResponseWriter, r *http.Request) {
 	// we need a view to render
 	u.Template.New.Execute(w, nil)

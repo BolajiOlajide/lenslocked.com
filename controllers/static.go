@@ -3,19 +3,17 @@ package controllers
 import (
 	"html/template"
 	"net/http"
-
-	"github.com/BolajiOlajide/lenslocked.com/views"
 )
 
 // StaticHandler takes a template and returns an handler func to be used to render the template
-func StaticHandler(tpl views.Template) http.HandlerFunc {
+func StaticHandler(tpl ViewTemplate) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tpl.Execute(w, nil)
 	}
 }
 
 // FAQHandler handle faq but by passing in the faq data
-func FAQHandler(tpl views.Template) http.HandlerFunc {
+func FAQHandler(tpl ViewTemplate) http.HandlerFunc {
 	questions := []struct {
 		Question string
 		// using html here because it's not user provided, so it's safe
