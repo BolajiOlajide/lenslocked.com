@@ -65,7 +65,7 @@ func main() {
 		amount INT,
 		description TEXT
 	);
-	`)
+`)
 
 	if err != nil {
 		panic(err)

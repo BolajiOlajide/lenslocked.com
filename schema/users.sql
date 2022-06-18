@@ -7,15 +7,3 @@ CREATE TABLE users (
 	last_name VARCHAR(255),
 	email TEXT UNIQUE NOT NULL
 );
-
-INSERT INTO users (
-	age,
-	first_name,
-	last_name,
-	email
-) VALUES (
-	9,
-	'Bolaji',
-	'Proton',
-	'bolaji@olajide.com'
-)
