@@ -58,7 +58,7 @@ builds/**/images/*
 **/tmp/*
 
 # Don't include our binary
-lenslocked.com
+lenslocked
 vendor
 bin
 app
