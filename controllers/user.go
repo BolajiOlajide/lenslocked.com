@@ -40,6 +40,18 @@ func (u User) Create(w http.ResponseWriter, r *http.Request) {
 
 	email := r.FormValue("email")
 	password := r.FormValue("password")
-	fmt.Println(email, "<====", password)
-	fmt.Fprintf(w, "Temporary Response")
+
+	user, err := u.UserService.Create(models.NewUser{
+		Email:    email,
+		Password: password,
+	})
+
+	if err != nil {
+		// http.Error(w, err.Error(), http.StatusInternalServerError)
+		fmt.Println(err)
+		http.Error(w, "Something went wrong.", http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintf(w, "User Created: %+v", user)
 }

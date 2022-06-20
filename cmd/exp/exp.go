@@ -9,7 +9,7 @@ import (
 
 func main() {
 	cfg := models.DefaultPostgresConfig()
-	db, err := models.Open(cfg)
+	db, err := cfg.Open()
 	defer db.Close()
 
 	err = db.Ping()
