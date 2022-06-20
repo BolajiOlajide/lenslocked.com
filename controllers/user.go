@@ -3,11 +3,14 @@ package controllers
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/BolajiOlajide/lenslocked.com/models"
 )
 
 // User representing a lenslocked user information
 type User struct {
-	Template Template
+	Template    Template
+	UserService *models.UserService
 }
 
 // Template template for user controller
