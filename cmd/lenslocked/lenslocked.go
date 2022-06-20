@@ -135,8 +135,10 @@ func main() {
 	userController := controllers.User{
 		UserService: &userService,
 	}
-	userController.Template.New = views.Must(views.ParseFS(templates.FS, "layouts/tailwind.gohtml", "signup.gohtml"))
+	userController.Templates.New = views.Must(views.ParseFS(templates.FS, "layouts/tailwind.gohtml", "signup.gohtml"))
+	userController.Templates.SignIn = views.Must(views.ParseFS(templates.FS, "layouts/tailwind.gohtml", "signin.gohtml"))
 	r.Get("/signup", userController.New)
+	r.Get("/signin", userController.SignIn)
 	r.Post("/api/signup", userController.Create)
 
 	// parse the templates

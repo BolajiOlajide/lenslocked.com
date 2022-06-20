@@ -9,13 +9,14 @@ import (
 
 // User representing a lenslocked user information
 type User struct {
-	Template    Template
+	Templates   Template
 	UserService *models.UserService
 }
 
 // Template template for user controller
 type Template struct {
-	New ViewTemplate
+	New    ViewTemplate
+	SignIn ViewTemplate
 }
 
 // New creates a new user using the signup route
@@ -25,7 +26,7 @@ func (u User) New(w http.ResponseWriter, r *http.Request) {
 	}
 	data.Email = r.FormValue("email")
 	// we need a view to render
-	u.Template.New.Execute(w, data)
+	u.Templates.New.Execute(w, data)
 }
 
 // Create backend implementation to actaually create the user
@@ -54,4 +55,13 @@ func (u User) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprintf(w, "User Created: %+v", user)
+}
+
+func (u User) SignIn(w http.ResponseWriter, r *http.Request) {
+	var data struct {
+		Email string
+	}
+	data.Email = r.FormValue("email")
+	// we need a view to render
+	u.Templates.SignIn.Execute(w, data)
 }
