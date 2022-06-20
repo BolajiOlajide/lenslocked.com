@@ -140,6 +140,7 @@ func main() {
 	r.Get("/signup", userController.New)
 	r.Get("/signin", userController.SignIn)
 	r.Post("/api/signup", userController.Create)
+	r.Post("/api/signin", userController.ProcessSignIn)
 
 	// parse the templates
 	tpl = views.Must(views.ParseFS(templates.FS, "old_home.gohtml", "layouts/part.gohtml"))

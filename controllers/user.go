@@ -57,6 +57,7 @@ func (u User) Create(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "User Created: %+v", user)
 }
 
+// SignIn renders the sign in html view
 func (u User) SignIn(w http.ResponseWriter, r *http.Request) {
 	var data struct {
 		Email string
@@ -64,4 +65,23 @@ func (u User) SignIn(w http.ResponseWriter, r *http.Request) {
 	data.Email = r.FormValue("email")
 	// we need a view to render
 	u.Templates.SignIn.Execute(w, data)
+}
+
+// ProcessSignIn verifies if the user exists and compares the password provided by the user
+func (u User) ProcessSignIn(w http.ResponseWriter, r *http.Request) {
+	var data struct {
+		Email    string
+		Password string
+	}
+	data.Email = r.FormValue("email")
+	data.Password = r.FormValue("password")
+
+	user, err := u.UserService.Authenticate(data.Email, data.Password)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, "Something went wrong.", http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintf(w, "User Authenticated: %+v", user)
 }
