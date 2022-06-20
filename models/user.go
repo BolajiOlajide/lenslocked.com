@@ -65,3 +65,29 @@ func hashPassword(password string) (string, error) {
 	}
 	return string(hash), nil
 }
+
+// Authenticate verifies if the pazsword belongs to the user with the provided email
+func (us *UserService) Authenticate(email, password string) (*User, error) {
+	email = strings.ToLower(email)
+
+	user := User{
+		Email: email,
+	}
+
+	row := us.DB.QueryRow(findUserQuery, email)
+	err := row.Scan(&user.ID, &user.Password)
+	if err != nil {
+		return nil, fmt.Errorf("authenticate: %w", err)
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if err != nil {
+		return nil, fmt.Errorf("invalid user and password combination")
+	}
+	return &user, nil
+}
+
+const findUserQuery = `
+--models/user.go:Authenticate
+SELECT id, password FROM users WHERE email = $1
+`
