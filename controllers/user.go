@@ -84,7 +84,7 @@ func (u User) ProcessSignIn(w http.ResponseWriter, r *http.Request) {
 	}
 
 	cookie := http.Cookie{
-		Name:     "email",
+		Name:     "lenslocked_email",
 		Value:    user.Email,
 		Path:     "/",
 		HttpOnly: true,
@@ -92,4 +92,15 @@ func (u User) ProcessSignIn(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, &cookie)
 
 	fmt.Fprintf(w, "User Authenticated: %+v", user)
+}
+
+// CurrentUser returns the information for the user making such request
+func (u User) CurrentUser(w http.ResponseWriter, r *http.Request) {
+	cookie, err := r.Cookie("lenslocked_email")
+	if err != nil {
+		fmt.Fprintf(w, "Email cookie could not be read")
+		return
+	}
+
+	fmt.Fprintf(w, "Email cookie: %s\n", cookie.Value)
 }
